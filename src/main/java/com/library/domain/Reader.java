@@ -3,6 +3,7 @@ package com.library.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @NoArgsConstructor
+@Setter
 @Entity(name = "READERS")
 public class Reader {
 
