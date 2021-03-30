@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 public class BorrowDto {
+    private Long borrowId;
     private Long copyId;
     private Long readerId;
     private LocalDate borrowDate;

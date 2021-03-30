@@ -7,14 +7,16 @@ import java.util.stream.Collectors;
 
 public class BorrowMapper {
     public Borrow mapToBorrow(final BorrowDto borrowDto) {
-        return new Borrow(borrowDto.getCopyId(),
+        return new Borrow(borrowDto.getBorrowId(),
+                borrowDto.getCopyId(),
                 borrowDto.getReaderId(),
                 borrowDto.getBorrowDate(),
                 borrowDto.getReturnDate());
     }
 
     public BorrowDto mapToBorrowDto(final Borrow borrow) {
-        return new BorrowDto(borrow.getCopyId(),
+        return new BorrowDto(borrow.getBorrowId(),
+                borrow.getCopyId(),
                 borrow.getReaderId(),
                 borrow.getBorrowDate(),
                 borrow.getReturnDate());
