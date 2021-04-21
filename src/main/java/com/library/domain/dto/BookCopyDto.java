@@ -1,5 +1,7 @@
-package com.library.domain;
+package com.library.domain.dto;
 
+import com.library.domain.Status;
+import com.library.domain.Title;
 import jdk.jfr.Name;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,5 +15,5 @@ import lombok.Setter;
 public class BookCopyDto {
     private Long copyId;
     private Long titleId;
-    private String status;
+    private Status status;
 }

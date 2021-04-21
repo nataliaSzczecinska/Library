@@ -20,7 +20,11 @@ public class BookCopyDBService {
         return bookCopyRepository.findById(bookCopyId);
     }
 
-    public BookCopy saveBookCopy(BookCopy bookCopy) {
+    public BookCopy saveBookCopy(final BookCopy bookCopy) {
         return bookCopyRepository.save(bookCopy);
+    }
+
+    public void deleteBookCopyById(final Long bookCopyId) {
+        bookCopyRepository.deleteById(bookCopyId);
     }
 }

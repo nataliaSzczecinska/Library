@@ -1,4 +1,4 @@
-package com.library.domain;
+package com.library.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

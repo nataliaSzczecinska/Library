@@ -1,29 +1,28 @@
 package com.library.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 @Setter
+@Table
 @Entity(name = "BOOK_COPIES")
 public class BookCopy {
     @Id
     @GeneratedValue
-    @Column(name = "COPY_ID")
+    @NotNull
+    @Column(name = "COPY_ID", unique = true)
     private Long copyId;
 
-    @Column(name = "TITLE_ID")
-    private Long titleId;
+    @JoinColumn(name = "TITLE_ID")
+    @ManyToOne(targetEntity = Title.class)
+    private Title title;
 
     @Column(name = "STATUS")
-    private String status;
+    private Status status;
 }

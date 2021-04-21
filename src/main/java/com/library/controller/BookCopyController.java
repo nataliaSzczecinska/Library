@@ -1,16 +1,19 @@
 package com.library.controller;
 
-import com.library.domain.BookCopyDto;
+import com.library.domain.BookCopy;
+import com.library.domain.dto.BookCopyDto;
+import com.library.exception.BookCopyNotFoundException;
+import com.library.exception.TitleNotFoundException;
 import com.library.mapper.BookCopyMapper;
 import com.library.service.BookCopyDBService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @RequiredArgsConstructor
-@Controller
+@RestController
 @RequestMapping("/v1/library/book_copy")
 public class BookCopyController {
 
@@ -19,26 +22,31 @@ public class BookCopyController {
 
     @GetMapping(value = "getBookCopies")
     public List<BookCopyDto> getBookCopies() {
-        return null;
+        List<BookCopy> bookCopyList = bookCopyDBService.getAllBookCopies();
+        return bookCopyMapper.mapToBookCopyDtoList(bookCopyList);
     }
 
     @GetMapping(value = "getBookCopy")
-    public BookCopyDto getBookCopy(Long bookCopyId) {
-        return null;
+    public BookCopyDto getBookCopy(@RequestParam Long bookCopyId) throws BookCopyNotFoundException {
+        return bookCopyMapper
+                .mapToBookCopyDto(bookCopyDBService
+                        .getBookCopy(bookCopyId)
+                        .orElseThrow(BookCopyNotFoundException::new));
     }
 
     @DeleteMapping(value = "deleteBookCopy")
-    public void deleteBookCopy(Long bookCopyId) {
-        //
+    public void deleteBookCopy(@RequestParam Long bookCopyId) {
+        bookCopyDBService.deleteBookCopyById(bookCopyId);
     }
 
-    @PutMapping(value = "updateBookCopy")
-    public BookCopyDto updateBookCopy(BookCopyDto bookCopyDto) {
-        return null;
+    @PutMapping(value = "updateBookCopy", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public BookCopyDto updateBookCopy(BookCopyDto bookCopyDto) throws TitleNotFoundException {
+        BookCopy bookCopySave = bookCopyDBService.saveBookCopy(bookCopyMapper.mapToBookCopy(bookCopyDto));
+        return bookCopyMapper.mapToBookCopyDto(bookCopySave);
     }
 
-    @PostMapping(value = "createBookCopy")
-    public void createBookCopy(BookCopyDto bookCopyDto) {
-        //
+    @PostMapping(value = "createBookCopy", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void createBookCopy(BookCopyDto bookCopyDto) throws TitleNotFoundException {
+        bookCopyDBService.saveBookCopy(bookCopyMapper.mapToBookCopy(bookCopyDto));
     }
 }

@@ -24,4 +24,8 @@ public class BorrowDBService {
     public Borrow saveBorrow(final Borrow borrow) {
         return borrowRepository.save(borrow);
     }
+
+    public void deleteBorrowById(final Long borrowId) {
+        borrowRepository.deleteById(borrowId);
+    }
 }

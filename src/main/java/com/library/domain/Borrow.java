@@ -5,29 +5,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
+@Table
 @Entity(name = "BORROWS")
 public class Borrow {
 
     @Id
     @GeneratedValue
+    @NotNull
     @Column(name = "BORROW_ID")
     private Long borrowId;
 
-    @Column(name = "COPY_ID")
-    private Long copyId;
+    @JoinColumn(name = "COPY_ID")
+    @OneToOne(targetEntity = BookCopy.class)
+    private BookCopy bookCopy;
 
-    @Column(name = "READER_ID")
-    private Long readerId;
+    @JoinColumn(name = "READER_ID")
+    @ManyToOne(targetEntity = Reader.class)
+    private Reader readerId;
 
     @Column(name = "BORROW_DATE")
     private LocalDate borrowDate;

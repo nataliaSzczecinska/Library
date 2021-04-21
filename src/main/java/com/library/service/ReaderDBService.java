@@ -22,4 +22,8 @@ public class ReaderDBService {
     public Reader saveReader(final Reader reader) {
         return readerRepository.save(reader);
     }
+
+    public void deleteReaderById(final Long readerId) {
+        readerRepository.deleteById(readerId);
+    }
 }

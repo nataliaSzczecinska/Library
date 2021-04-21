@@ -1,11 +1,13 @@
 package com.library.mapper;
 
 import com.library.domain.Reader;
-import com.library.domain.ReaderDto;
+import com.library.domain.dto.ReaderDto;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Service
 public class ReaderMapper {
     public Reader mapToReader(final ReaderDto readerDto) {
         return new Reader(readerDto.getReaderId(),

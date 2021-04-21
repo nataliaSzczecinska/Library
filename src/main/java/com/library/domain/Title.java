@@ -1,25 +1,24 @@
 package com.library.domain;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import lombok.*;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 @Setter
+@Table
 @Entity(name = "TITLES")
 public class Title {
     @Id
     @GeneratedValue
-    @Column(name = "TITLE_ID")
+    @NotNull
+    @Column(name = "TITLE_ID", unique = true)
     private Long titleId;
 
     @Column(name = "AUTHOR")
@@ -30,4 +29,18 @@ public class Title {
 
     @Column(name = "YEAR")
     private int year;
+
+    @OneToMany(
+            mappedBy = "title",
+            targetEntity = BookCopy.class,
+            fetch = FetchType.LAZY
+    )
+    private List<BookCopy> bookCopyList;
+
+    public Title(Long titleId, String author, String title, int year) {
+        this.titleId = titleId;
+        this.author = author;
+        this.title = title;
+        this.year = year;
+    }
 }

@@ -4,8 +4,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.library.domain.Title;
-import com.library.domain.TitleDto;
+import com.library.domain.dto.TitleDto;
+import org.springframework.stereotype.Service;
 
+@Service
 public class TitleMapper {
 
     public Title mapToTitle(final TitleDto titleDto) {

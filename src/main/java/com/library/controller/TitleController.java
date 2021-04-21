@@ -3,10 +3,12 @@ package com.library.controller;
 import java.util.*;
 
 import com.library.domain.Title;
-import com.library.domain.TitleDto;
+import com.library.domain.dto.TitleDto;
+import com.library.exception.TitleNotFoundException;
 import com.library.mapper.TitleMapper;
 import com.library.service.TitleDBService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,22 +26,26 @@ public class TitleController {
     }
 
     @GetMapping(value = "getTitle")
-    public TitleDto getTitle(Long titleId) {
-        return null;
+    public TitleDto getTitle(@RequestBody Long titleId) throws TitleNotFoundException {
+        return titleMapper
+                .mapToTitleDto(titleDBService
+                        .getTitle(titleId)
+                        .orElseThrow(TitleNotFoundException::new));
     }
 
     @DeleteMapping(value = "deleteTitle")
-    public void deleteTitle(Long titleId) {
-        //
+    public void deleteTitle(@RequestParam Long titleId) {
+        titleDBService.deleteTitleById(titleId);
     }
 
-    @PutMapping(value = "updateTitle")
-    public TitleDto updateTitle(TitleDto titleDto) {
-        return null;
+    @PutMapping(value = "updateTitle", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public TitleDto updateTitle(@RequestBody TitleDto titleDto) {
+        Title saveTitle = titleDBService.saveTitle(titleMapper.mapToTitle(titleDto));
+        return titleMapper.mapToTitleDto(saveTitle);
     }
 
-    @PostMapping(value = "createTitle")
-    public void createTask(TitleDto titleDto) {
-
+    @PostMapping(value = "createTitle", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void createTask(@RequestBody TitleDto titleDto) {
+        titleDBService.saveTitle(titleMapper.mapToTitle(titleDto));
     }
 }

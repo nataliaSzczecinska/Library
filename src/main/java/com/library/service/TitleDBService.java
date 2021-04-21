@@ -22,4 +22,8 @@ public class TitleDBService {
     public Title saveTitle(final Title title) {
         return titleRepository.save(title);
     }
+
+    public void deleteTitleById(final Long titleId) {
+        titleRepository.deleteById(titleId);
+    }
 }
