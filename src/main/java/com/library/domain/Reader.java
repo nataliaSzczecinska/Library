@@ -33,10 +33,16 @@ public class Reader {
     @Column(name = "CREATE_ACCOUNT_DATE")
     private LocalDate createAccountDate;
 
-    @JoinColumn(name = "BORROW_ID")
     @OneToMany(
-            mappedBy = "readers",
+            mappedBy = "readerId",
             targetEntity = Borrow.class,
             fetch = FetchType.LAZY)
     private List<Borrow> borrowList;
+
+    public Reader(Long readerId, String name, String surname, LocalDate createAccountDate) {
+        this.readerId = readerId;
+        this.name = name;
+        this.surname = surname;
+        this.createAccountDate = createAccountDate;
+    }
 }

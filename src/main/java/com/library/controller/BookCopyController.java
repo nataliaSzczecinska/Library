@@ -1,6 +1,7 @@
 package com.library.controller;
 
 import com.library.domain.BookCopy;
+import com.library.domain.Title;
 import com.library.domain.dto.BookCopyDto;
 import com.library.exception.BookCopyNotFoundException;
 import com.library.exception.TitleNotFoundException;
@@ -41,6 +42,11 @@ public class BookCopyController {
 
     @PutMapping(value = "updateBookCopy", consumes = MediaType.APPLICATION_JSON_VALUE)
     public BookCopyDto updateBookCopy(BookCopyDto bookCopyDto) throws TitleNotFoundException {
+        BookCopy copy = bookCopyDBService
+                .getBookCopy(bookCopyDto.getCopyId())
+                .orElseThrow(TitleNotFoundException::new);
+        Title title = copy.getTitle();
+        bookCopyDto.setTitleId(title.getTitleId());
         BookCopy bookCopySave = bookCopyDBService.saveBookCopy(bookCopyMapper.mapToBookCopy(bookCopyDto));
         return bookCopyMapper.mapToBookCopyDto(bookCopySave);
     }

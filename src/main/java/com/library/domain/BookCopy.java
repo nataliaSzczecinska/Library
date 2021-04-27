@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Setter
 @Table
 @Entity(name = "BOOK_COPIES")
@@ -25,4 +24,9 @@ public class BookCopy {
 
     @Column(name = "STATUS")
     private Status status;
+
+    public BookCopy (Title title, Status status) {
+        this.title = title;
+        this.status = status;
+    }
 }

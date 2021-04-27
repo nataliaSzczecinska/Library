@@ -26,7 +26,7 @@ public class TitleController {
     }
 
     @GetMapping(value = "getTitle")
-    public TitleDto getTitle(@RequestBody Long titleId) throws TitleNotFoundException {
+    public TitleDto getTitle(@RequestParam Long titleId) throws TitleNotFoundException {
         return titleMapper
                 .mapToTitleDto(titleDBService
                         .getTitle(titleId)
@@ -45,7 +45,7 @@ public class TitleController {
     }
 
     @PostMapping(value = "createTitle", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createTask(@RequestBody TitleDto titleDto) {
+    public void createTitle(@RequestBody TitleDto titleDto) {
         titleDBService.saveTitle(titleMapper.mapToTitle(titleDto));
     }
 }

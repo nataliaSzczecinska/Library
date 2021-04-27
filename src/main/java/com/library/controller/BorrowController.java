@@ -1,6 +1,8 @@
 package com.library.controller;
 
+import com.library.domain.BookCopy;
 import com.library.domain.Borrow;
+import com.library.domain.Reader;
 import com.library.domain.dto.BorrowDto;
 import com.library.exception.BookCopyNotFoundException;
 import com.library.exception.BorrowNotFoundException;
@@ -41,7 +43,15 @@ public class BorrowController {
     }
 
     @PutMapping(value = "updateBorrow", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public BorrowDto updateBorrow(@RequestBody BorrowDto borrowDto) throws ReaderNotFoundException, BookCopyNotFoundException {
+    public BorrowDto updateBorrow(@RequestBody BorrowDto borrowDto) throws ReaderNotFoundException, BookCopyNotFoundException, BorrowNotFoundException {
+        Borrow borrow = borrowDBService
+                .getBorrow(borrowDto.getBorrowId())
+                .orElseThrow(BorrowNotFoundException::new);
+        Reader reader = borrow.getReaderId();
+        BookCopy copy = borrow.getBookCopy();
+        borrowDto.setCopyId(copy.getCopyId());
+        borrowDto.setReaderId(reader.getReaderId());
+        borrowDto.setBorrowDate(borrow.getBorrowDate());
         Borrow borrowSave = borrowDBService.saveBorrow(borrowMapper.mapToBorrow(borrowDto));
         return borrowMapper.mapToBorrowDto(borrowSave);
     }

@@ -2,6 +2,8 @@ package com.library.controller;
 
 import com.library.domain.Reader;
 import com.library.domain.dto.ReaderDto;
+
+import java.time.LocalDate;
 import java.util.*;
 
 import com.library.exception.ReaderNotFoundException;
@@ -39,13 +41,19 @@ public class ReaderController {
     }
 
     @PutMapping(value = "updateReader", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ReaderDto updateReader(@RequestBody ReaderDto readerDto) {
+    public ReaderDto updateReader(@RequestBody ReaderDto readerDto) throws ReaderNotFoundException {
+        Reader getReader = readerDBService
+                .getReader(readerDto.getReaderId())
+                .orElseThrow(ReaderNotFoundException::new);
+        LocalDate date = getReader.getCreateAccountDate();
+        readerDto.setCreateAccountDate(date);
         Reader readerSave = readerDBService.saveReader(readerMapper.mapToReader(readerDto));
         return readerMapper.mapToReaderDto(readerSave);
     }
 
     @PostMapping(value = "createReader", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createReader(@RequestBody ReaderDto readerDto) {
+        readerDto.setCreateAccountDate(LocalDate.now());
         readerDBService.saveReader(readerMapper.mapToReader(readerDto));
     }
 }
