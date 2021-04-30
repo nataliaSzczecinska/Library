@@ -2,6 +2,8 @@ package com.library.controller;
 
 import java.util.*;
 
+import com.library.domain.BookCopy;
+import com.library.domain.Status;
 import com.library.domain.Title;
 import com.library.domain.dto.TitleDto;
 import com.library.exception.TitleNotFoundException;
@@ -47,5 +49,22 @@ public class TitleController {
     @PostMapping(value = "createTitle", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createTitle(@RequestBody TitleDto titleDto) {
         titleDBService.saveTitle(titleMapper.mapToTitle(titleDto));
+    }
+
+    @GetMapping(value = "numberOfCopies")
+    public int numberOfAvailableCopiesWithTitle(@RequestParam Long titleId) throws TitleNotFoundException {
+        Title title = titleDBService
+                .getTitle(titleId)
+                .orElseThrow(TitleNotFoundException::new);
+        if (title.getBookCopyList() == null) {
+            return 0;
+        }
+        int count = 0;
+        for (BookCopy copy : title.getBookCopyList()) {
+            if (copy.getStatus().equals(Status.AVAILABLE)) {
+                count++;
+            }
+        }
+        return count;
     }
 }

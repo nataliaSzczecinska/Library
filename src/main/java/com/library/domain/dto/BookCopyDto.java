@@ -6,9 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
 @Setter
 public class BookCopyDto {
     private Long copyId;
