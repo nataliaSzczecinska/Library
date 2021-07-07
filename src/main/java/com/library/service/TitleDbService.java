@@ -1,21 +1,22 @@
 package com.library.service;
 
-import java.util.*;
 import com.library.domain.Title;
-import com.library.repository.TitleRepository;
-import lombok.AllArgsConstructor;
+import com.library.repetitory.TitleRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@AllArgsConstructor
+import java.util.*;
+
+@RequiredArgsConstructor
 @Service
-public class TitleDBService {
+public class TitleDbService {
     private final TitleRepository titleRepository;
 
     public List<Title> getAllTitles() {
         return titleRepository.findAll();
     }
 
-    public Optional<Title> getTitle(final Long titleId) {
+    public Optional<Title> getTitleById(final Long titleId) {
         return titleRepository.findById(titleId);
     }
 
@@ -23,7 +24,7 @@ public class TitleDBService {
         return titleRepository.save(title);
     }
 
-    public void deleteTitleById(final Long titleId) {
+    public void deleteTitle(final Long titleId) {
         titleRepository.deleteById(titleId);
     }
 }

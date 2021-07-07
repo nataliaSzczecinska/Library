@@ -1,17 +1,21 @@
 package com.library.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.library.domain.Copy;
+import com.library.domain.enums.BookCategory;
+import lombok.*;
 
-@Getter
-@AllArgsConstructor
+import java.util.List;
+
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
 @Setter
 public class TitleDto {
-    private Long titleId;
-    private String author;
+    private Long id;
     private String title;
+    private String author;
+    private String publisher;
     private int year;
+    private List<BookCategory> categories;
 }

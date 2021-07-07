@@ -1,48 +1,65 @@
 package com.library.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.library.domain.enums.Role;
+import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@NoArgsConstructor
 @Setter
-@Table
-@Entity(name = "READERS")
+@Entity
+@Table(name = "READERS")
 public class Reader {
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
-    @Column(name = "READER_ID", unique = true)
-    private Long readerId;
+    @Column(name = "READER_ID")
+    private Long id;
 
-    @Column(name = "NAME")
+    @NotNull
+    @Column(name = "READER_NAME")
     private String name;
 
-    @Column(name = "SURNAME")
-    private String surname;
+    @NotNull
+    @UniqueElements
+    @Column(name = "READER_LOGIN")
+    private String login;
 
+    @NotNull
+    @UniqueElements
+    @Column(name = "READER_E-MAIL_ADDRESS")
+    private String mailAddress;
+
+    @NotNull
+    @Column(name = "READER_PASSWORD")
+    private char[] password;
+
+    @NotNull
     @Column(name = "CREATE_ACCOUNT_DATE")
     private LocalDate createAccountDate;
 
-    @OneToMany(
-            mappedBy = "readerId",
-            targetEntity = Borrow.class,
-            fetch = FetchType.LAZY)
-    private List<Borrow> borrowList;
+    @NotNull
+    @Column(name = "IS_BLOCKED")
+    private boolean blocked;
 
-    public Reader(Long readerId, String name, String surname, LocalDate createAccountDate) {
-        this.readerId = readerId;
-        this.name = name;
-        this.surname = surname;
-        this.createAccountDate = createAccountDate;
+    @NotNull
+    @Column(name = "READER_ROLE")
+    private Role role;
+
+    @OneToMany(targetEntity = Borrow.class,
+            mappedBy = "reader",
+            fetch = FetchType.LAZY)
+    private List<Borrow> borrows;
+
+    public void clearSensitive() {
+        Arrays.fill(password, '\0');
     }
 }

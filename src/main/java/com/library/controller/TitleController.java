@@ -1,70 +1,55 @@
 package com.library.controller;
 
-import java.util.*;
-
-import com.library.domain.BookCopy;
-import com.library.domain.Status;
-import com.library.domain.Title;
 import com.library.domain.dto.TitleDto;
-import com.library.exception.TitleNotFoundException;
-import com.library.mapper.TitleMapper;
-import com.library.service.TitleDBService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/v1/library/title")
+import java.util.List;
+import java.util.ArrayList;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @RequiredArgsConstructor
+@RestController
+@RequestMapping("/library/titles")
 public class TitleController {
-
-    private final TitleDBService titleDBService;
-    private final TitleMapper titleMapper;
-
-    @RequestMapping(method = RequestMethod.GET, value = "getTitles")
-    public List<TitleDto> getTitles() {
-        List<Title> titleList = titleDBService.getAllTitles();
-        return titleMapper.mapToTitleDtoList(titleList);
+    @GetMapping
+    public List<TitleDto> getAllBookTitles() {
+        return new ArrayList<>();
     }
 
-    @GetMapping(value = "getTitle")
-    public TitleDto getTitle(@RequestParam Long titleId) throws TitleNotFoundException {
-        return titleMapper
-                .mapToTitleDto(titleDBService
-                        .getTitle(titleId)
-                        .orElseThrow(TitleNotFoundException::new));
+    @GetMapping(value = "/{id}")
+    public TitleDto getBookTitleById(@PathVariable Long id) {
+        return TitleDto.builder().build();
     }
 
-    @DeleteMapping(value = "deleteTitle")
-    public void deleteTitle(@RequestParam Long titleId) {
-        titleDBService.deleteTitleById(titleId);
+    @GetMapping(value = "/title/{title}")
+    public List<TitleDto> getBooksByTitleFragment(@PathVariable String title) {
+        return new ArrayList<>();
     }
 
-    @PutMapping(value = "updateTitle", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public TitleDto updateTitle(@RequestBody TitleDto titleDto) {
-        Title saveTitle = titleDBService.saveTitle(titleMapper.mapToTitle(titleDto));
-        return titleMapper.mapToTitleDto(saveTitle);
+    @GetMapping(value = "/author/{author}")
+    public List<TitleDto> getBooksByAuthor(@PathVariable String author) {
+        return new ArrayList<>();
     }
 
-    @PostMapping(value = "createTitle", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createTitle(@RequestBody TitleDto titleDto) {
-        titleDBService.saveTitle(titleMapper.mapToTitle(titleDto));
+    @GetMapping(value = "/year/{year}")
+    public List<TitleDto> getBooksByYear(@PathVariable int year) {
+        return new ArrayList<>();
     }
 
-    @GetMapping(value = "numberOfCopies")
-    public int numberOfAvailableCopiesWithTitle(@RequestParam Long titleId) throws TitleNotFoundException {
-        Title title = titleDBService
-                .getTitle(titleId)
-                .orElseThrow(TitleNotFoundException::new);
-        if (title.getBookCopyList() == null) {
-            return 0;
-        }
-        int count = 0;
-        for (BookCopy copy : title.getBookCopyList()) {
-            if (copy.getStatus().equals(Status.AVAILABLE)) {
-                count++;
-            }
-        }
-        return count;
+    @GetMapping(value = "/publisher/{publisher}")
+    public List<TitleDto> getBooksByPublisher(@PathVariable String publisher) {
+        return new ArrayList<>();
+    }
+
+    @PostMapping(consumes = APPLICATION_JSON_VALUE)
+    public void createBookTitle(@RequestBody TitleDto titleDto) {
+        //
+    }
+
+    @PutMapping(consumes = APPLICATION_JSON_VALUE)
+    public TitleDto updateBookTitle(@RequestBody TitleDto titleDto) {
+        return TitleDto.builder().build();
     }
 }

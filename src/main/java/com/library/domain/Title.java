@@ -1,45 +1,51 @@
 package com.library.domain;
 
-import java.util.*;
-
+import com.library.domain.enums.BookCategory;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
-@Getter
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
 @Setter
-@Table
-@Entity(name = "TITLES")
+@Entity
+@Table(name = "TITLES")
 public class Title {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
-    @Column(name = "TITLE_ID", unique = true)
-    private Long titleId;
+    @Column(name = "TITLE_ID")
+    private Long id;
 
-    @Column(name = "AUTHOR")
-    private String author;
-
+    @NotNull
     @Column(name = "TITLE")
     private String title;
 
+    @NotNull
+    @Column(name = "AUTHOR")
+    private String author;
+
+    @NotNull
+    @Column(name = "PUBLISHER")
+    private String publisher;
+
+    @NotNull
     @Column(name = "YEAR")
     private int year;
 
-    @OneToMany(
-            mappedBy = "title",
-            targetEntity = BookCopy.class,
-            fetch = FetchType.LAZY
-    )
-    private List<BookCopy> bookCopyList;
+    @ElementCollection(targetClass = BookCategory.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name="CATEGORIES")
+    @Column(name = "CATEGORIES")
+    private List<BookCategory> categories;
 
-    public Title(Long titleId, String author, String title, int year) {
-        this.titleId = titleId;
-        this.author = author;
-        this.title = title;
-        this.year = year;
-    }
+    @OneToMany(targetEntity = Copy.class,
+            mappedBy = "title",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Copy> copies;
 }

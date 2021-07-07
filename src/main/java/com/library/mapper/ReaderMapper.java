@@ -1,37 +1,46 @@
 package com.library.mapper;
 
+import com.library.domain.Borrow;
 import com.library.domain.Reader;
 import com.library.domain.dto.ReaderDto;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 public class ReaderMapper {
-    public Reader mapToReader(final ReaderDto readerDto) {
-        return new Reader(readerDto.getReaderId(),
-                readerDto.getName(),
-                readerDto.getSurname(),
-                readerDto.getCreateAccountDate());
+
+    public Reader mapToReader(final ReaderDto readerDto, final List<Borrow> borrows) {
+        return Reader.builder()
+                .id(readerDto.getId())
+                .name(readerDto.getName())
+                .login(readerDto.getLogin())
+                .mailAddress(readerDto.getMailAddress())
+                .password(readerDto.getPassword())
+                .createAccountDate(readerDto.getCreateAccountDate())
+                .blocked(readerDto.isBlocked())
+                .role(readerDto.getRole())
+                .borrows(borrows)
+                .build();
     }
 
     public ReaderDto mapToReaderDto(final Reader reader) {
-        return new ReaderDto(reader.getReaderId(),
-                reader.getName(),
-                reader.getSurname(),
-                reader.getCreateAccountDate());
+        return ReaderDto.builder()
+                .id(reader.getId())
+                .name(reader.getName())
+                .login(reader.getLogin())
+                .mailAddress(reader.getMailAddress())
+                .password(reader.getPassword())
+                .createAccountDate(reader.getCreateAccountDate())
+                .blocked(reader.isBlocked())
+                .role(reader.getRole())
+                .build();
     }
 
-    public List<Reader> mapToReaderList(final List<ReaderDto> readerDtoList) {
-        return readerDtoList.stream()
-                .map(this::mapToReader)
-                .collect(Collectors.toList());
-    }
-
-    public List<ReaderDto> mapToReaderDtoList(final List<Reader> readerList) {
-        return readerList.stream()
-                .map(this::mapToReaderDto)
+    public List<ReaderDto> mapToReaderDtoList(final List<Reader> readers) {
+        return readers.stream()
+                .map(reader -> mapToReaderDto(reader))
                 .collect(Collectors.toList());
     }
 }

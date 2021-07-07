@@ -1,46 +1,44 @@
 package com.library.mapper;
 
-import com.library.domain.BookCopy;
 import com.library.domain.Borrow;
+import com.library.domain.Copy;
 import com.library.domain.Reader;
 import com.library.domain.dto.BorrowDto;
-import com.library.exception.BookCopyNotFoundException;
-import com.library.exception.ReaderNotFoundException;
-import com.library.service.BookCopyDBService;
-import com.library.service.ReaderDBService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
-@Service
+@Component
 public class BorrowMapper {
-    private final ReaderDBService readerDBService;
-    private final BookCopyDBService bookCopyDBService;
 
-    public Borrow mapToBorrow(final BorrowDto borrowDto) throws ReaderNotFoundException, BookCopyNotFoundException {
-        BookCopy bookCopy = bookCopyDBService.getBookCopy(borrowDto.getCopyId()).orElseThrow(BookCopyNotFoundException::new);
-        Reader reader = readerDBService.getReader(borrowDto.getReaderId()).orElseThrow(ReaderNotFoundException::new);
-        return new Borrow(borrowDto.getBorrowId(),
-                bookCopy,
-                reader,
-                borrowDto.getBorrowDate(),
-                borrowDto.getReturnDate());
+    public Borrow mapToBorrow(final BorrowDto borrowDto, final Copy copy, final Reader reader) {
+        return Borrow.builder()
+                .id(borrowDto.getId())
+                .copy(copy)
+                .reader(reader)
+                .borrowDate(borrowDto.getBorrowDate())
+                .returnDate(borrowDto.getReturnDate())
+                .realReturnDate(borrowDto.getRealReturnDate())
+                .isFinish(borrowDto.isFinish())
+                .build();
     }
 
     public BorrowDto mapToBorrowDto(final Borrow borrow) {
-        return new BorrowDto(borrow.getBorrowId(),
-                borrow.getBookCopy().getCopyId(),
-                borrow.getReaderId().getReaderId(),
-                borrow.getBorrowDate(),
-                borrow.getReturnDate());
+        return BorrowDto.builder()
+                .id(borrow.getId())
+                .copyId(borrow.getCopy().getId())
+                .readerId(borrow.getReader().getId())
+                .borrowDate(borrow.getBorrowDate())
+                .returnDate(borrow.getReturnDate())
+                .realReturnDate(borrow.getRealReturnDate())
+                .isFinish(borrow.isFinish())
+                .build();
     }
 
-    public List<BorrowDto> mapToBorrowDtoList(final List<Borrow> borrowList) {
-        return borrowList.stream()
-                .map(this::mapToBorrowDto)
+    public List<BorrowDto> mapToBorrowDtoList(final List<Borrow> borrows) {
+        return borrows.stream()
+                .map(borrow -> mapToBorrowDto(borrow))
                 .collect(Collectors.toList());
     }
 }

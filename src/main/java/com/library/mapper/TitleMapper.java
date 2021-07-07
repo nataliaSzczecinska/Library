@@ -1,38 +1,42 @@
 package com.library.mapper;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
+import com.library.domain.Copy;
 import com.library.domain.Title;
 import com.library.domain.dto.TitleDto;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Component
 public class TitleMapper {
 
-    public Title mapToTitle(final TitleDto titleDto) {
-        return new Title(titleDto.getTitleId(),
-                titleDto.getAuthor(),
-                titleDto.getTitle(),
-                titleDto.getYear());
+    public Title mapToTitle(final TitleDto titleDto, final List<Copy> copies) {
+        return Title.builder()
+                .id(titleDto.getId())
+                .title(titleDto.getTitle())
+                .author(titleDto.getAuthor())
+                .publisher(titleDto.getPublisher())
+                .year(titleDto.getYear())
+                .categories(titleDto.getCategories())
+                .copies(copies)
+                .build();
     }
 
     public TitleDto mapToTitleDto(final Title title) {
-        return new TitleDto(title.getTitleId(),
-                title.getAuthor(),
-                title.getTitle(),
-                title.getYear());
+        return TitleDto.builder()
+                .id(title.getId())
+                .title(title.getTitle())
+                .author(title.getAuthor())
+                .publisher(title.getPublisher())
+                .year(title.getYear())
+                .categories(title.getCategories())
+                .build();
     }
 
-    public List<TitleDto> mapToTitleDtoList(final List<Title> titleList) {
-        return titleList.stream()
-                .map(this::mapToTitleDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<Title> mapToTitleList(final  List<TitleDto> titleDtoList) {
-        return titleDtoList.stream()
-                .map(this::mapToTitle)
+    public List<TitleDto> mapToTitleDtoList(final List<Title> titles) {
+        return titles.stream()
+                .map(title -> mapToTitleDto(title))
                 .collect(Collectors.toList());
     }
 }

@@ -1,63 +1,46 @@
 package com.library.controller;
 
-import com.library.domain.BookCopy;
-import com.library.domain.Borrow;
-import com.library.domain.Reader;
 import com.library.domain.dto.BorrowDto;
-import com.library.exception.BookCopyNotFoundException;
-import com.library.exception.BorrowNotFoundException;
-import com.library.exception.ReaderNotFoundException;
-import com.library.mapper.BorrowMapper;
-import com.library.service.BorrowDBService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-@RestController
-@RequestMapping("/v1/library/borrow")
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @RequiredArgsConstructor
+@RestController
+@RequestMapping("/library/borrows")
 public class BorrowController {
 
-    private final BorrowDBService borrowDBService;
-    private final BorrowMapper borrowMapper;
-
-    @GetMapping(value = "getBorrows")
-    public List<BorrowDto> getBorrows() {
-        List<Borrow> borrowList = borrowDBService.getAllBorrows();
-        return borrowMapper.mapToBorrowDtoList(borrowList);
+    @GetMapping
+    public List<BorrowDto> getAllBorrows() {
+        return new ArrayList<>();
     }
 
-    @GetMapping(value = "getBorrow")
-    public BorrowDto getBorrow(@RequestParam Long borrowId) throws BorrowNotFoundException {
-        return borrowMapper
-                .mapToBorrowDto(borrowDBService
-                        .getBorrow(borrowId)
-                        .orElseThrow(BorrowNotFoundException::new));
+    @GetMapping(value = "/{id}")
+    public BorrowDto getBorrowById(@PathVariable Long id) {
+        return BorrowDto.builder().build();
     }
 
-    @DeleteMapping(value = "deleteBorrow")
-    public void deleteBorrow(@RequestParam Long borrowId) {
-        borrowDBService.deleteBorrowById(borrowId);
+    @GetMapping(value = "/reader/{readerId}")
+    public List<BorrowDto> getBorrowsByReaderId(@PathVariable String readerId) {
+        return new ArrayList<>();
     }
 
-    @PutMapping(value = "updateBorrow", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public BorrowDto updateBorrow(@RequestBody BorrowDto borrowDto) throws ReaderNotFoundException, BookCopyNotFoundException, BorrowNotFoundException {
-        Borrow borrow = borrowDBService
-                .getBorrow(borrowDto.getBorrowId())
-                .orElseThrow(BorrowNotFoundException::new);
-        Reader reader = borrow.getReaderId();
-        BookCopy copy = borrow.getBookCopy();
-        borrowDto.setCopyId(copy.getCopyId());
-        borrowDto.setReaderId(reader.getReaderId());
-        borrowDto.setBorrowDate(borrow.getBorrowDate());
-        Borrow borrowSave = borrowDBService.saveBorrow(borrowMapper.mapToBorrow(borrowDto));
-        return borrowMapper.mapToBorrowDto(borrowSave);
+    @GetMapping(value = "/title/{titleId}")
+    public List<BorrowDto> getBorrowsByTitleId(@PathVariable String titleId) {
+        return new ArrayList<>();
     }
 
-    @PostMapping(value = "createBorrow", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createBorrow(@RequestBody BorrowDto borrowDto) throws ReaderNotFoundException, BookCopyNotFoundException {
-        borrowDBService.saveBorrow(borrowMapper.mapToBorrow(borrowDto));
+    @PostMapping(consumes = APPLICATION_JSON_VALUE)
+    public void createBorrow(@RequestBody BorrowDto borrowDto) {
+        //
+    }
+
+    @PutMapping(consumes = APPLICATION_JSON_VALUE)
+    public BorrowDto updateBorrow(@RequestBody BorrowDto borrowDto) {
+        return BorrowDto.builder().build();
     }
 }

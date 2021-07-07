@@ -1,20 +1,20 @@
 package com.library.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Getter
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
 @Setter
 public class BorrowDto {
-    private Long borrowId;
+    private Long id;
     private Long copyId;
     private Long readerId;
     private LocalDate borrowDate;
     private LocalDate returnDate;
+    private LocalDate realReturnDate;
+    private boolean isFinish;
 }
