@@ -2,9 +2,9 @@ package com.library.domain;
 
 import com.library.domain.enums.Role;
 import lombok.*;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -19,8 +19,8 @@ import java.util.List;
 @Table(name = "READERS")
 public class Reader {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
+    @GeneratedValue
     @Column(name = "READER_ID")
     private Long id;
 
@@ -29,13 +29,12 @@ public class Reader {
     private String name;
 
     @NotNull
-    @UniqueElements
     @Column(name = "READER_LOGIN")
     private String login;
 
     @NotNull
-    @UniqueElements
-    @Column(name = "READER_E-MAIL_ADDRESS")
+    @Email
+    @Column(name = "READER_EMAIL_ADDRESS")
     private String mailAddress;
 
     @NotNull
@@ -51,12 +50,14 @@ public class Reader {
     private boolean blocked;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "READER_ROLE")
     private Role role;
 
     @OneToMany(targetEntity = Borrow.class,
             mappedBy = "reader",
-            fetch = FetchType.LAZY)
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
     private List<Borrow> borrows;
 
     public void clearSensitive() {

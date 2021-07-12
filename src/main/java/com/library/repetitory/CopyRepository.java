@@ -15,11 +15,11 @@ public interface CopyRepository extends CrudRepository<Copy, Long> {
     public List<Copy> findAll();
 
     @Override
-    public Optional<Copy> findById(final Long copyId);
+    public Optional<Copy> findById(Long copyId);
 
     @Override
-    public Copy save(final Copy copy);
+    public Copy save(Copy copy);
 
     @Override
-    public void deleteById(final Long copyId);
+    public void deleteById(Long copyId);
 }

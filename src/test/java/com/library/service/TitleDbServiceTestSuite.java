@@ -1,5 +1,6 @@
-package com.library.domain;
+package com.library.service;
 
+import com.library.domain.Title;
 import com.library.domain.enums.BookCategory;
 import com.library.facade.sql.SQLCondition;
 import com.library.repetitory.TitleRepository;
@@ -19,9 +20,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class TitleTestSuite {
+public class TitleDbServiceTestSuite {
     @Autowired
     private TitleRepository titleRepository;
+
+    @Autowired
+    private TitleDbService titleDbService;
 
     private Title title1 = Title.builder()
             .title("Test title 1")
@@ -51,27 +55,14 @@ public class TitleTestSuite {
     }
 
     @Test
-    public void saveTitleToDatabaseTest() {
-        //Given
-
-        //When
-        titleRepository.save(title1);
-        Long id = title1.getId();
-        Optional<Title> titleOptional = titleRepository.findById(id);
-
-        //Then
-        assertTrue(titleOptional.isPresent());
-    }
-
-    @Test
-    public void findAllTitlesTest() {
+    public void getAllTitlesTest() {
         //Given
         titleRepository.save(title1);
         titleRepository.save(title2);
         titleRepository.save(title3);
 
         //When
-        List<Title> titles = titleRepository.findAll();
+        List<Title> titles = titleDbService.getAllTitles();
 
         //Then
         assertEquals(3, titles.size());
@@ -81,13 +72,13 @@ public class TitleTestSuite {
     }
 
     @Test
-    public void findTitleByIdTest() {
+    public void getTitleByIdTest() {
         //Given
         titleRepository.save(title1);
         Long id = title1.getId();
 
         //When
-        Optional<Title> titleOptional = titleRepository.findById(id);
+        Optional<Title> titleOptional = titleDbService.getTitleById(id);
 
         //Then
         assertTrue(titleOptional.isPresent());
@@ -95,14 +86,14 @@ public class TitleTestSuite {
     }
 
     @Test
-    public void retrieveBookByTitleFragmentTest() {
+    public void searchBookTitlesByTitleFragmentTest() {
         //Given
         titleRepository.save(title1);
         titleRepository.save(title2);
         titleRepository.save(title3);
 
         //When
-        List<Title> titles = titleRepository.retrieveBookByTitleFragment(SQLCondition.sqlCondition("itl"));
+        List<Title> titles = titleDbService.searchBookTitlesByTitleFragment(SQLCondition.sqlCondition("itl"));
 
         //Then
         assertEquals(3, titles.size());
@@ -112,14 +103,14 @@ public class TitleTestSuite {
     }
 
     @Test
-    public void retrieveBookByAuthorTest() {
+    public void searchBookTitlesByAuthorTest() {
         //Given
         titleRepository.save(title1);
         titleRepository.save(title2);
         titleRepository.save(title3);
 
         //When
-        List<Title> titles = titleRepository.retrieveTitleByAuthor(SQLCondition.sqlCondition("thor"));
+        List<Title> titles = titleDbService.searchBookTitlesByAuthor(SQLCondition.sqlCondition("thor"));
 
         //Then
         assertEquals(3, titles.size());
@@ -129,14 +120,14 @@ public class TitleTestSuite {
     }
 
     @Test
-    public void retrieveBookByPublisherTest() {
+    public void searchBookTitlesByPublisherTest() {
         //Given
         titleRepository.save(title1);
         titleRepository.save(title2);
         titleRepository.save(title3);
 
         //When
-        List<Title> titles = titleRepository.retrieveTitleByPublisher(SQLCondition.sqlCondition("lish"));
+        List<Title> titles = titleDbService.searchBookTitlesByPublisher(SQLCondition.sqlCondition("lish"));
 
         //Then
         assertEquals(3, titles.size());
@@ -146,17 +137,31 @@ public class TitleTestSuite {
     }
 
     @Test
-    public void retrieveBookByYearTest() {
+    public void searchBookTitlesByYearTest() {
         //Given
         titleRepository.save(title1);
         titleRepository.save(title2);
         titleRepository.save(title3);
 
         //When
-        List<Title> titles = titleRepository.retrieveTitleByYear(2003);
+        List<Title> titles = titleDbService.searchBookTitlesByYear(2003);
 
         //Then
         assertEquals(1, titles.size());
         assertEquals("Test title 3", titles.get(0).getTitle());
+    }
+
+    @Test
+    public void saveTitleInDatabaseTest() {
+        //Given
+
+        //When
+        titleDbService.saveTitle(title1);
+        Long id = title1.getId();
+        Optional<Title> titleOptional = titleDbService.getTitleById(id);
+
+        //Then
+        assertTrue(titleOptional.isPresent());
+        assertEquals(id, titleOptional.get().getId());
     }
 }

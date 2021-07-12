@@ -7,6 +7,24 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "Title.retrieveBookByTitleFragment",
+                query = "FROM Title WHERE title LIKE: titleFragment"
+        ),
+        @NamedQuery(
+                name = "Title.retrieveTitleByAuthor",
+                query = "FROM Title WHERE author LIKE : author"
+        ),
+        @NamedQuery(
+                name = "Title.retrieveTitleByPublisher",
+                query = "FROM Title WHERE publisher LIKE : publisher"
+        ),
+        @NamedQuery(
+                name = "Title.retrieveTitleByYear",
+                query = "FROM Title WHERE year = : year"
+        )
+})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,8 +34,8 @@ import java.util.List;
 @Table(name = "TITLES")
 public class Title {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
+    @GeneratedValue
     @Column(name = "TITLE_ID")
     private Long id;
 
@@ -37,7 +55,8 @@ public class Title {
     @Column(name = "YEAR")
     private int year;
 
-    @ElementCollection(targetClass = BookCategory.class)
+    @ElementCollection(targetClass = BookCategory.class,
+            fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name="CATEGORIES")
     @Column(name = "CATEGORIES")

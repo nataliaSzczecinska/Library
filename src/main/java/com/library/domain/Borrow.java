@@ -15,8 +15,8 @@ import java.time.LocalDate;
 @Table(name = "BORROWS")
 public class Borrow {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
+    @GeneratedValue
     @Column(name = "BORROW_ID")
     private Long id;
 

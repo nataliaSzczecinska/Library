@@ -15,11 +15,11 @@ public interface BorrowRepository extends CrudRepository<Borrow, Long> {
     public List<Borrow> findAll();
 
     @Override
-    public Optional<Borrow> findById(final Long borrowId);
+    public Optional<Borrow> findById(Long borrowId);
 
     @Override
-    public Borrow save(final Borrow borrow);
+    public Borrow save(Borrow borrow);
 
     @Override
-    public void deleteById(final Long borrowId);
+    public void deleteById(Long borrowId);
 }

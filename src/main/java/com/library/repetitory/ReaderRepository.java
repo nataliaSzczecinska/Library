@@ -15,11 +15,11 @@ public interface ReaderRepository extends CrudRepository<Reader, Long> {
     public List<Reader> findAll();
 
     @Override
-    public Optional<Reader> findById(final Long readerId);
+    public Optional<Reader> findById(Long readerId);
 
     @Override
-    public Reader save(final Reader reader);
+    public Reader save(Reader reader);
 
     @Override
-    public void deleteById(final Long readerId);
+    public void deleteById(Long readerId);
 }

@@ -17,8 +17,8 @@ import javax.validation.constraints.NotNull;
 @Table(name = "COPIES")
 public class Copy {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
+    @GeneratedValue
     @Column(name = "COPY_ID")
     private Long id;
 
@@ -28,6 +28,7 @@ public class Copy {
     private Title title;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "COPY_STATUS")
     private CopyStatus copyStatus;
 
