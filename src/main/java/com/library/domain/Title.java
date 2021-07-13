@@ -1,5 +1,6 @@
 package com.library.domain;
 
+import com.library.domain.archive.DeleteCopy;
 import com.library.domain.enums.BookCategory;
 import lombok.*;
 
@@ -36,7 +37,7 @@ public class Title {
     @Id
     @NotNull
     @GeneratedValue
-    @Column(name = "TITLE_ID")
+    @Column(name = "TITLE_ID", unique = true)
     private Long id;
 
     @NotNull
@@ -67,4 +68,10 @@ public class Title {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private List<Copy> copies;
+
+    @OneToMany(targetEntity = DeleteCopy.class,
+            mappedBy = "title",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<DeleteCopy> deleteCopies;
 }

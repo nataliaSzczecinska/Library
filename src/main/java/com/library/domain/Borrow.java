@@ -17,7 +17,7 @@ public class Borrow {
     @Id
     @NotNull
     @GeneratedValue
-    @Column(name = "BORROW_ID")
+    @Column(name = "BORROW_ID", unique = true)
     private Long id;
 
     @ManyToOne

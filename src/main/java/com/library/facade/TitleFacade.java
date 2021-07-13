@@ -50,12 +50,11 @@ public class TitleFacade {
     }
 
     public void createBookTitle(TitleDto titleDto) {
-        titleDbService.saveTitle(titleMapper.mapToTitle(titleDto, new ArrayList<>()));
+        titleDbService.saveTitle(titleMapper.mapToTitle(titleDto, new ArrayList<>(), new ArrayList<>()));
     }
 
     public TitleDto updateBookTitle(TitleDto titleDto) throws TitleNotFoundException {
         Title title = titleDbService.getTitleById(titleDto.getId()).orElseThrow(TitleNotFoundException::new);
-        List<Copy> copies = title.getCopies();
-        return titleMapper.mapToTitleDto(titleDbService.saveTitle(titleMapper.mapToTitle(titleDto, copies)));
+        return titleMapper.mapToTitleDto(titleDbService.saveTitle(titleMapper.mapToTitle(titleDto, title.getCopies(), title.getDeleteCopies())));
     }
 }

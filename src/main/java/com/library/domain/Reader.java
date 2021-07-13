@@ -21,7 +21,7 @@ public class Reader {
     @Id
     @NotNull
     @GeneratedValue
-    @Column(name = "READER_ID")
+    @Column(name = "READER_ID", unique = true)
     private Long id;
 
     @NotNull
@@ -29,12 +29,12 @@ public class Reader {
     private String name;
 
     @NotNull
-    @Column(name = "READER_LOGIN")
+    @Column(name = "READER_LOGIN", unique = true)
     private String login;
 
     @NotNull
     @Email
-    @Column(name = "READER_EMAIL_ADDRESS")
+    @Column(name = "READER_EMAIL_ADDRESS", unique = true)
     private String mailAddress;
 
     @NotNull

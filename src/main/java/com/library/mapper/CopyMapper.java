@@ -1,5 +1,6 @@
 package com.library.mapper;
 
+import com.library.domain.Borrow;
 import com.library.domain.Copy;
 import com.library.domain.Title;
 import com.library.domain.dto.CopyDto;
@@ -11,11 +12,12 @@ import java.util.stream.Collectors;
 @Component
 public class CopyMapper {
 
-    public Copy mapToCopy(final CopyDto copyDto, final Title title) {
+    public Copy mapToCopy(final CopyDto copyDto, final Title title, final List<Borrow> borrows) {
         return Copy.builder()
                 .id(copyDto.getId())
                 .title(title)
                 .copyStatus(copyDto.getCopyStatus())
+                .borrows(borrows)
                 .build();
     }
 

@@ -56,7 +56,7 @@ public class CopyMapperTestSuite {
         //Given
 
         //When
-        Copy copy = copyMapper.mapToCopy(copy1Dto, title);
+        Copy copy = copyMapper.mapToCopy(copy1Dto, title, new ArrayList<>());
 
         //Then
         assertEquals(1L, copy.getId());

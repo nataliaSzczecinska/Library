@@ -50,7 +50,7 @@ public class TitleDbServiceTestSuite {
             .build();
 
     @AfterEach
-    public void cleanUp() {
+    public void cleanUpDatabase() {
         titleRepository.deleteAll();
     }
 

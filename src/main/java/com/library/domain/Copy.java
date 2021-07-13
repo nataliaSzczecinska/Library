@@ -19,7 +19,7 @@ public class Copy {
     @Id
     @NotNull
     @GeneratedValue
-    @Column(name = "COPY_ID")
+    @Column(name = "COPY_ID", unique = true)
     private Long id;
 
     @NotNull

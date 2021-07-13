@@ -2,6 +2,7 @@ package com.library.mapper;
 
 import com.library.domain.Copy;
 import com.library.domain.Title;
+import com.library.domain.archive.DeleteCopy;
 import com.library.domain.dto.TitleDto;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +12,7 @@ import java.util.stream.Collectors;
 @Component
 public class TitleMapper {
 
-    public Title mapToTitle(final TitleDto titleDto, final List<Copy> copies) {
+    public Title mapToTitle(final TitleDto titleDto, final List<Copy> copies, final List<DeleteCopy> deleteCopies) {
         return Title.builder()
                 .id(titleDto.getId())
                 .title(titleDto.getTitle())
@@ -20,6 +21,7 @@ public class TitleMapper {
                 .year(titleDto.getYear())
                 .categories(titleDto.getCategories())
                 .copies(copies)
+                .deleteCopies(deleteCopies)
                 .build();
     }
 

@@ -57,7 +57,7 @@ public class TitleMapperTestSuite {
         //Given
 
         //When
-        Title title = titleMapper.mapToTitle(title1Dto, new ArrayList<>());
+        Title title = titleMapper.mapToTitle(title1Dto, new ArrayList<>(), new ArrayList<>());
 
         //Then
         assertEquals(1L, title.getId());

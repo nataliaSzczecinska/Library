@@ -140,7 +140,7 @@ public class TitleControllerTestSuite {
     public void getBookTitleByIdTest() throws Exception {
         //Given
         when(titleMapper.mapToTitleDto(title1)).thenReturn(title1Dto);
-        when(titleMapper.mapToTitle(title1Dto, new ArrayList<>())).thenReturn(title1);
+        when(titleMapper.mapToTitle(ArgumentMatchers.any(TitleDto.class), ArgumentMatchers.eq(new ArrayList<>()), ArgumentMatchers.eq(new ArrayList<>()))).thenReturn(title1);
         when(titleFacade.getBookTitleById(1L)).thenReturn(title1Dto);
         when(titleDbService.getTitleById(1L)).thenReturn(Optional.of(title1));
 
@@ -340,7 +340,7 @@ public class TitleControllerTestSuite {
     public void createBookTitleTest() throws Exception {
         //Given
         when(titleMapper.mapToTitleDto(ArgumentMatchers.any(Title.class))).thenReturn(title1Dto);
-        when(titleMapper.mapToTitle(ArgumentMatchers.any(TitleDto.class), ArgumentMatchers.eq(new ArrayList<>()))).thenReturn(title1);
+        when(titleMapper.mapToTitle(ArgumentMatchers.any(TitleDto.class), ArgumentMatchers.eq(new ArrayList<>()), ArgumentMatchers.eq(new ArrayList<>()))).thenReturn(title1);
         when(titleDbService.saveTitle(ArgumentMatchers.any(Title.class))).thenReturn(title1);
 
         Gson gson = new Gson();
@@ -359,7 +359,7 @@ public class TitleControllerTestSuite {
     public void updateBookTitleTest() throws Exception {
         //Given
         when(titleMapper.mapToTitleDto(ArgumentMatchers.any(Title.class))).thenReturn(title1Dto);
-        when(titleMapper.mapToTitle(ArgumentMatchers.any(TitleDto.class), ArgumentMatchers.eq(new ArrayList<>()))).thenReturn(title1);
+        when(titleMapper.mapToTitle(ArgumentMatchers.any(TitleDto.class), ArgumentMatchers.eq(new ArrayList<>()), ArgumentMatchers.eq(new ArrayList<>()))).thenReturn(title1);
         when(titleFacade.updateBookTitle(ArgumentMatchers.any(TitleDto.class))).thenReturn(title1Dto);
         when(titleDbService.saveTitle(ArgumentMatchers.any(Title.class))).thenReturn(title1);
 
