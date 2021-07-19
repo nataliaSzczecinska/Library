@@ -5,6 +5,7 @@ import com.library.domain.Reader;
 import com.library.domain.dto.ReaderDto;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ public class ReaderMapper {
                 .login(readerDto.getLogin())
                 .mailAddress(readerDto.getMailAddress())
                 .password(readerDto.getPassword())
-                .createAccountDate(readerDto.getCreateAccountDate())
+                .createAccountDate(LocalDate.parse(readerDto.getCreateAccountDate()))
                 .blocked(readerDto.isBlocked())
                 .role(readerDto.getRole())
                 .borrows(borrows)
@@ -32,7 +33,7 @@ public class ReaderMapper {
                 .login(reader.getLogin())
                 .mailAddress(reader.getMailAddress())
                 .password(reader.getPassword())
-                .createAccountDate(reader.getCreateAccountDate())
+                .createAccountDate(reader.getCreateAccountDate().toString())
                 .blocked(reader.isBlocked())
                 .role(reader.getRole())
                 .build();

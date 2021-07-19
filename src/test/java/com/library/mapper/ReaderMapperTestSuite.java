@@ -67,7 +67,7 @@ public class ReaderMapperTestSuite {
             .login("Test login 1")
             .mailAddress("test1@mail.com")
             .password(password1)
-            .createAccountDate(LocalDate.of(2001, 1, 1))
+            .createAccountDate("2001-01-01")
             .blocked(false)
             .role(Role.NORMAL_READER)
             .build();
@@ -132,7 +132,7 @@ public class ReaderMapperTestSuite {
         assertEquals("test1@mail.com", readerDto.getMailAddress());
         assertEquals(9, readerDto.getPassword().length);
         assertEquals('1', readerDto.getPassword()[8]);
-        assertEquals(LocalDate.of(2001, 1, 1), readerDto.getCreateAccountDate());
+        assertEquals("2001-01-01", readerDto.getCreateAccountDate());
         assertEquals(Role.NORMAL_READER, readerDto.getRole());
         assertFalse(readerDto.isBlocked());
     }
@@ -153,7 +153,7 @@ public class ReaderMapperTestSuite {
         assertEquals("test1@mail.com", readerDtoList.get(0).getMailAddress());
         assertEquals(9, readerDtoList.get(0).getPassword().length);
         assertEquals('1', readerDtoList.get(0).getPassword()[8]);
-        assertEquals(LocalDate.of(2001, 1, 1), readerDtoList.get(0).getCreateAccountDate());
+        assertEquals("2001-01-01", readerDtoList.get(0).getCreateAccountDate());
         assertEquals(Role.NORMAL_READER, readerDtoList.get(0).getRole());
         assertFalse(readerDtoList.get(1).isBlocked());
         assertEquals(2L, readerDtoList.get(1).getId());
@@ -162,7 +162,7 @@ public class ReaderMapperTestSuite {
         assertEquals("test2@mail.com", readerDtoList.get(1).getMailAddress());
         assertEquals(9, readerDtoList.get(1).getPassword().length);
         assertEquals('2', readerDtoList.get(1).getPassword()[8]);
-        assertEquals(LocalDate.of(2002, 2, 2), readerDtoList.get(1).getCreateAccountDate());
+        assertEquals("2002-02-02", readerDtoList.get(1).getCreateAccountDate());
         assertEquals(Role.MANAGER, readerDtoList.get(1).getRole());
         assertFalse(readerDtoList.get(1).isBlocked());
         assertEquals(3L, readerDtoList.get(2).getId());
@@ -171,7 +171,7 @@ public class ReaderMapperTestSuite {
         assertEquals("test3@mail.com", readerDtoList.get(2).getMailAddress());
         assertEquals(9, readerDtoList.get(2).getPassword().length);
         assertEquals('3', readerDtoList.get(2).getPassword()[8]);
-        assertEquals(LocalDate.of(2003, 3, 3), readerDtoList.get(2).getCreateAccountDate());
+        assertEquals("2003-03-03", readerDtoList.get(2).getCreateAccountDate());
         assertEquals(Role.ADMIN, readerDtoList.get(2).getRole());
         assertTrue(readerDtoList.get(2).isBlocked());
     }

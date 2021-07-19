@@ -5,12 +5,9 @@ import com.library.domain.enums.CopyStatus;
 import com.library.exception.CopyNotFoundException;
 import com.library.exception.TitleNotFoundException;
 import com.library.mapper.CopyMapper;
-import com.library.mapper.TitleMapper;
-import com.library.service.BorrowDbService;
 import com.library.service.CopyDbService;
 import com.library.service.TitleDbService;
 import com.library.validator.CopyValidator;
-import com.library.validator.TitleValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

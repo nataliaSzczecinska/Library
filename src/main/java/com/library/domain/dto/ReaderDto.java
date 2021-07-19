@@ -17,7 +17,7 @@ public class ReaderDto {
     private String login;
     private String mailAddress;
     private char[] password;
-    private LocalDate createAccountDate;
+    private String createAccountDate;
     private boolean blocked;
     private Role role;
 

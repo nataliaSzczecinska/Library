@@ -3,7 +3,6 @@ package com.library.facade;
 import com.library.domain.Copy;
 import com.library.domain.Title;
 import com.library.domain.dto.CopyDto;
-import com.library.domain.dto.TitleDto;
 import com.library.domain.enums.BookCategory;
 import com.library.domain.enums.CopyStatus;
 import com.library.exception.CopyNotFoundException;
